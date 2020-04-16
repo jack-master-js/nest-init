@@ -18,6 +18,7 @@ import {HttpExceptionFilter} from '../common/filter/http-exception.filter'
 import {ValidationPipe} from '../common/pipe/validation.pipe'
 import {AuthGuard} from '../common/guard/auth.guard'
 import {LoggingInterceptor} from '../common/interceptor/logging.interceptor'
+import {User} from '../common/decorator/user.decorator'
 
 @Controller('cats')
 // @UseGuards(new AuthGuard())
@@ -37,9 +38,14 @@ export class CatsController {
     return `This action returns all cats (limit: ${query.limit} items)`;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return `This action returns a #${id} cat`;
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return `This action returns a #${id} cat`;
+  // }
+
+  @Get('decorator')
+  findOneByDecorator(@User('name') name){
+    return name
   }
 
   @Put(':id')
