@@ -1,15 +1,39 @@
-import { Controller, Get, Query, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+  UseFilters,
+  UsePipes,
+  UseGuards,
+  UseInterceptors
+} from '@nestjs/common';
+import {HttpExceptionFilter} from '../common/filter/http-exception.filter'
+import {ValidationPipe} from '../common/pipe/validation.pipe'
+import {AuthGuard} from '../common/guard/auth.guard'
+import {LoggingInterceptor} from '../common/interceptor/logging.interceptor'
 
 @Controller('cats')
+// @UseGuards(new AuthGuard())
+@UseInterceptors(LoggingInterceptor)
 export class CatsController {
   @Post()
+  // @UseFilters(HttpExceptionFilter)
+  @UsePipes(ValidationPipe)
   create(@Body() cat) {
-    console.log(cat);
-    return 'This action adds a new cat';
+    // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN)
+    return cat;
   }
 
   @Get()
   findAll(@Query() query) {
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     return `This action returns all cats (limit: ${query.limit} items)`;
   }
 
