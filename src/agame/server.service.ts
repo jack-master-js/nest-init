@@ -1,15 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import Server from '../common/Server';
 import { AGamePlayer } from './player.type';
+import { netUtil } from 'web-base';
+import { v4 } from 'uuid';
+import * as qs from 'qs';
+
+const uuidv4 = v4;
 
 @Injectable()
 export class AGameServer extends Server {
+    server: any;
+
     constructor() {
         super();
     }
 
-    playerLogin(socket) {
-        const { query } = socket.handshake;
+    async start(server) {
+        this.server = server;
+        this.server.on('connection', (socket, req) => {
+            console.info(
+                `[game server] connection origin: ${req.headers.origin}`,
+            );
+            console.info(`[game server] connection url: ${req.url}`);
+
+            socket.on('error', (e) => {
+                console.error(
+                    `[game server] ${socket.loginName} socket error: ${e.message}`,
+                );
+            });
+
+            // distribute the user from different path
+            this.playerLogin(socket, req);
+        });
+    }
+
+    playerLogin(socket, req) {
+        const ip = netUtil.getWsClientIp(req);
+        const queryStr = netUtil.getQueryStr(req.url);
+        const query = qs.parse(queryStr);
         const { loginName } = query;
 
         socket.loginName = loginName;
@@ -28,7 +56,8 @@ export class AGameServer extends Server {
                 };
                 player = new AGamePlayer(socket, playerInfo);
 
-                player.id = socket.id;
+                player.ip = ip;
+                player.id = uuidv4();
 
                 player.onNewConnection(socket);
             } else {

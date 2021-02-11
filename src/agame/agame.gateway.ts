@@ -1,5 +1,5 @@
 import { WebSocketGateway, OnGatewayInit } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { Server } from 'ws';
 import { AGameServer } from './server.service';
 
 @WebSocketGateway()

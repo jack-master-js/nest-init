@@ -1,14 +1,12 @@
+import protoUtil from '../utils/protoUtil';
 export default class Player {
-    public info: any;
-    private socket: any;
-    private handlers: any;
+    info: any;
+    socket: any;
+    handlers: any = new Map();
 
     constructor(socket, info) {
         this.socket = socket;
         this.info = info;
-
-        this.handlers = new Map();
-        this.handler();
     }
 
     on(cmd, callback) {
@@ -16,16 +14,7 @@ export default class Player {
     }
 
     emit(cmd, msg) {
-        this.socket.send({ cmd, msg });
-    }
-
-    handler() {
-        // playerRequests(this);
-        // this.socket.onAny((event, data) => {
-        //     console.log(`got ${event} data ${data}`);
-        //     const { cmd, msg } = data;
-        //     if (cmd) this.trigger(cmd, msg, false);
-        // });
+        this.socket.send(protoUtil.encode(cmd, msg));
     }
 
     trigger(cmd, msg, fromSystem = true) {
@@ -39,12 +28,6 @@ export default class Player {
 
     onNewConnection(socket) {
         console.info(`[ Player ] ${socket.loginName} new connected!`);
-    }
-
-    onReConnection(socket) {
-        console.info(`[ Player ] ${socket.loginName} reconnected!`);
-        this.socket = socket;
-        this.handler();
     }
 
     onKickOut(socket) {

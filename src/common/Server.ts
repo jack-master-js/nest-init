@@ -1,21 +1,11 @@
+import protoUtil from '../utils/protoUtil';
 export default class Server {
-    server: any;
     onlinePlayers = new Map();
     offlinePlayers = new Map();
 
-    async start(server) {
-        this.server = server;
-        this.server.on('connection', (socket) => {
-            // distribute the user from different path
-            this.playerLogin(socket);
-        });
-    }
-
-    playerLogin(socket) {}
-
     //当前建立连接的用户
     socketMsg(socket, cmd, msg) {
-        socket.send({ cmd, msg });
+        socket.send(protoUtil.encode(cmd, msg));
     }
 
     //所有用户
@@ -32,7 +22,7 @@ export default class Server {
     kickOut(socket, message) {
         if (socket) {
             this.socketMsg(socket, 'systemNotice', { message });
-            socket.disconnect();
+            socket.close();
         }
     }
 
