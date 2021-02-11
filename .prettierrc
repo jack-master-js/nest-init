@@ -1,4 +1,8 @@
 {
+  "tabWidth": 4,
+  "trailingComma": "all",
   "singleQuote": true,
-  "trailingComma": "all"
+  "eslintIntegration": true,
+  "stylelintIntegration": true,
+  "semi": true
 }
