@@ -26,19 +26,9 @@ export default class Player {
         }
     }
 
-    onNewConnection(socket) {
-        console.info(`[ Player ] ${socket.loginName} new connected!`);
-    }
-
-    onKickOut(socket) {
-        console.info(`[ Player ] ${socket.loginName} was kick out!`);
-    }
-
     async online(socket, playerOnline) {
         await playerOnline();
         console.info(`[ Player ] ${socket.loginName} is online!`);
-
-        this.joinRoom();
     }
 
     async offline(socket, playerOffline) {
@@ -48,9 +38,5 @@ export default class Player {
                 console.info(`[ Player ] ${socket.loginName} is offline!`);
             }
         });
-    }
-
-    joinRoom() {
-        //to do something!!!
     }
 }

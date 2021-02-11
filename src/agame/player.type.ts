@@ -16,9 +16,17 @@ export class AGamePlayer extends Player {
         });
     }
 
+    onNewConnection(socket) {
+        console.info(`[ Player ] ${socket.loginName} new connected!`);
+    }
+
     onReConnection(socket) {
         console.info(`[ Player ] ${socket.loginName} reconnected!`);
         this.socket = socket;
         this.handler();
+    }
+
+    onKickOut(socket) {
+        console.info(`[ Player ] ${socket.loginName} was kick out!`);
     }
 }
