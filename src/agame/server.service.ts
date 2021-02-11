@@ -30,20 +30,22 @@ export class AGameServer extends Server {
             });
 
             // distribute the user from different path
-            this.playerLogin(socket, req);
+            const ip = netUtil.getWsClientIp(req);
+            const queryStr = netUtil.getQueryStr(req.url);
+            const query = qs.parse(queryStr);
+            const { loginName } = query;
+
+            if (loginName) {
+                socket.loginName = loginName;
+                socket.ip = ip;
+                this.playerLogin(socket);
+            }
         });
     }
 
-    playerLogin(socket, req) {
-        const ip = netUtil.getWsClientIp(req);
-        const queryStr = netUtil.getQueryStr(req.url);
-        const query = qs.parse(queryStr);
-        const { loginName } = query;
-
-        socket.loginName = loginName;
-
+    playerLogin(socket) {
+        const { loginName, ip } = socket;
         //check user, get userInfo
-
         try {
             let onlinePlayer = this.onlinePlayers.get(loginName);
             let offlinePlayer = this.offlinePlayers.get(loginName);

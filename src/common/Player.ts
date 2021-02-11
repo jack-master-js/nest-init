@@ -1,7 +1,7 @@
 import protoUtil from '../utils/protoUtil';
 export default class Player {
-    info: any;
     socket: any;
+    info: any;
     handlers: any = new Map();
 
     constructor(socket, info) {

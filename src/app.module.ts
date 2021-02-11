@@ -6,6 +6,9 @@ import { AGameModule } from './agame/agame.module';
 @Module({
     imports: [AGameModule],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService, {
+        provide: 'myValue',
+        useValue: 666
+    }],
 })
 export class AppModule {}
