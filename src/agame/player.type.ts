@@ -1,4 +1,4 @@
-import Player from '../common/Player';
+import Player from '../types/player';
 import playerRequests from './player.requests';
 import protoUtil from '../utils/protoUtil';
 

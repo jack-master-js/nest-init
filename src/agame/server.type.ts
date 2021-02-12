@@ -1,4 +1,4 @@
-import Server from '../common/Server';
+import Server from '../types/server';
 import { netUtil } from 'web-base';
 import { v4 } from 'uuid';
 import * as qs from 'qs';
