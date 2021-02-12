@@ -25,6 +25,7 @@
         "@nestjs/platform-express": "^7.5.1",
         "@nestjs/platform-ws": "^7.6.12",
         "@nestjs/websockets": "^7.6.12",
+        "hbs": "^4.1.1",
         "protobufjs": "^6.10.2",
         "qs": "^6.9.6",
         "reflect-metadata": "^0.1.13",

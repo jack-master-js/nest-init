@@ -7,14 +7,14 @@ import {
 import { Server } from 'ws';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AGameServer } from './server.service';
+import { AGameServerService } from './server.service';
 
 @WebSocketGateway()
 export class AGameWsGateway implements OnGatewayInit {
-    constructor(private readonly aGameServer: AGameServer) {}
+    constructor(private readonly aGameServerService: AGameServerService) {}
 
     afterInit(server: Server): void {
-        this.aGameServer.start(server);
+        this.aGameServerService.listen(server);
     }
 
     @SubscribeMessage('events')
