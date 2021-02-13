@@ -3,8 +3,10 @@ import playerRequests from './player.requests';
 import protoUtil from '../utils/protoUtil';
 
 export class AGamePlayer extends Player {
-    constructor(socket, info) {
+    id: string;
+    constructor(socket, info, id) {
         super(socket, info);
+        this.id = id;
         this.handler();
     }
 

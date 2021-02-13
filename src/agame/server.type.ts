@@ -53,13 +53,10 @@ export class AGameServer extends Server {
                 //new player
                 const playerInfo = {
                     loginName,
+                    ip,
                 };
 
-                player = new AGamePlayer(socket, playerInfo);
-
-                player.ip = ip;
-                player.id = uuidv4();
-
+                player = new AGamePlayer(socket, playerInfo, uuidv4());
                 player.onNewConnection(socket);
             } else {
                 //old player
